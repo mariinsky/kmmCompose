@@ -6,7 +6,7 @@ plugins {
 }
 
 kotlin {
-    android()
+    androidTarget()
 
     jvm("desktop")
 
@@ -39,9 +39,9 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.activity:activity-compose:1.6.1")
-                api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.9.0")
+                api(libs.activity.compose)
+                api(libs.appCompat)
+                api(libs.core.ktx)
             }
         }
         val iosX64Main by getting
@@ -62,7 +62,7 @@ kotlin {
 }
 
 android {
-    compileSdk = (findProperty("android.compileSdk") as String).toInt()
+    compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "com.myapplication.common"
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -70,14 +70,13 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        minSdk = (findProperty("android.minSdk") as String).toInt()
-        targetSdk = (findProperty("android.targetSdk") as String).toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
-        jvmToolchain(11)
+        jvmToolchain(17)
     }
 }
